@@ -10,4 +10,8 @@ db.sqlite3
 *.log
 .python-version
 .uv
+*.pyc
+staticfiles/
+.staticfiles/
 "@ | Out-File -FilePath .gitignore -Encoding utf8
+

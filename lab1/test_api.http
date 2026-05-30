@@ -1,0 +1,50 @@
+@baseUrl = http://127.0.0.1:8000/api
+
+### 1. LIST
+GET {{baseUrl}}/results/
+Content-Type: application/json
+
+### 2. CREATE
+POST {{baseUrl}}/results/
+Content-Type: application/json
+
+{
+    "season": 2024,
+    "race_name": "Abu Dhabi Grand Prix",
+    "date": "2024-12-08",
+    "driver": "Max Verstappen",
+    "constructor": "Red Bull Racing",
+    "laps": 58,
+    "position": 1,
+    "avg_pit_time": 2.15,
+    "track_temp": 32.5
+}
+
+###
+
+### 3. RETRIEVE
+GET {{baseUrl}}/results/1/
+Content-Type: application/json
+
+###
+
+### 4. UPDATE
+PUT {{baseUrl}}/results/1/
+Content-Type: application/json
+
+{
+    "season": 2024,
+    "race_name": "Abu Dhabi Grand Prix - Updated",
+    "date": "2024-12-08",
+    "driver": "Max Verstappen",
+    "constructor": "Red Bull Racing",
+    "laps": 58,
+    "position": 1,
+    "avg_pit_time": 1.98,
+    "track_temp": 30.0
+}
+
+
+### 5. DELETE
+DELETE {{baseUrl}}/results/1/
+Content-Type: application/json

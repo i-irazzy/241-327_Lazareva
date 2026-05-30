@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    env_file: .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  init_db:
+    build: ./backend
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate && 
+             python manage.py collectstatic --noinput &&
+             python import_data.py"
+    volumes:
+      - static_volume:/app/staticfiles
+
+  backend:
+    build: ./backend
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      init_db:
+        condition: service_completed_successfully
+    volumes:
+      - static_volume:/app/staticfiles
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    volumes:
+      - static_volume:/app/staticfiles
+    secrets:
+      - ssl_key
+
+
+secrets:
+  ssl_key:
+    file: ./nginx/server.key
+
+volumes:
+  postgres_data:
+  static_volume:

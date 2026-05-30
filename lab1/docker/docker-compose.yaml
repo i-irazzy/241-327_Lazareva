@@ -1,0 +1,15 @@
+volumes:
+    postgres: { }
+
+services:
+    postgres:
+        image: postgres:15.12
+        ports:
+        -   "5433:5432"
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER:-postgres}
+            POSTGRES_PASSWORD: "12345678"
+            PGDATA: /var/lib/postgres/data
+        volumes:
+        -   postgres:/var/lib/postgres/data
+
