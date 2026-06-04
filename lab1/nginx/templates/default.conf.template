@@ -14,7 +14,7 @@ server {
 
     # Пути к сертификатам
     ssl_certificate /etc/nginx/certs/server.crt;
-    ssl_certificate_key /run/secrets/ssl_key; # Приватный ключ из секретов Docker
+    ssl_certificate_key /run/secrets/ssl_key; 
 
     location /static/ {
         alias /app/staticfiles/;
